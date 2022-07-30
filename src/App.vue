@@ -6,13 +6,14 @@
           width="128" />
       </div>
       <v-spacer></v-spacer>
-      <v-btn text v-for="(item, i) in menuItems" :key="`menu-items-${i}`">
+      <v-btn :href="item.href" text v-for="(item, i) in menuItems" :key="`menu-items-${i}`">
         {{ item.text }}
       </v-btn>
     </v-app-bar>
 
     <v-main>
       <HeroSection />
+      <CalcSection />
       <FaqSection />
     </v-main>
   </v-app>
@@ -21,6 +22,7 @@
 <script>
 import HeroSection from './components/HeroSection.vue';
 import FaqSection from './components/faqSection.vue';
+import CalcSection from './components/calcSection.vue';
 
 
 export default {
@@ -28,7 +30,8 @@ export default {
 
   components: {
     HeroSection,
-    FaqSection
+    FaqSection,
+    CalcSection
   },
 
   data: () => ({
@@ -51,17 +54,12 @@ export default {
       {
         text: 'سوالات متداول',
         icon: 'help',
-        href: '/faq'
+        href: '#faq'
       },
       {
-        text: 'ورود',
+        text: 'ماشین حساب',
         icon: 'person',
-        href: '/login'
-      },
-      {
-        text: 'ثبت نام',
-        icon: 'person_add',
-        href: '/register'
+        href: '#calc'
       }
     ]
   }),
