@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app flat color="white" class="header-box-shadow">
       <div class="d-flex align-center">
-        <v-img alt="لوگوی فونر" class="mr-2" contain src="/img/phoner.ir-logo.png" transition="scale-transition"
+        <v-img alt="لوگوی فونر" class="mr-2" contain src="img/phoner.ir-logo.png" transition="scale-transition"
           width="128" />
       </div>
       <v-spacer></v-spacer>
@@ -13,8 +13,9 @@
 
     <v-main>
       <HeroSection />
+      <!-- <FaqSection /> -->
+      <StepsSection />
       <CalcSection />
-      <FaqSection />
     </v-main>
   </v-app>
 </template>
@@ -23,6 +24,7 @@
 import HeroSection from './components/HeroSection.vue';
 import FaqSection from './components/faqSection.vue';
 import CalcSection from './components/calcSection.vue';
+import StepsSection from './components/stepsSection.vue';
 
 
 export default {
@@ -30,32 +32,19 @@ export default {
 
   components: {
     HeroSection,
+    // eslint-disable-next-line vue/no-unused-components
     FaqSection,
-    CalcSection
-  },
+    CalcSection,
+    StepsSection
+},
 
   data: () => ({
     menuItems: [
-      {
-        text: 'خانه',
-        icon: 'home',
-        href: '/'
-      },
-      {
-        text: 'درباره ما',
-        icon: 'info',
-        href: '/about'
-      },
-      {
-        text: 'تماس با ما',
-        icon: 'phone',
-        href: '/contact'
-      },
-      {
-        text: 'سوالات متداول',
-        icon: 'help',
-        href: '#faq'
-      },
+      // {
+      //   text: 'سوالات متداول',
+      //   icon: 'help',
+      //   href: '#faq'
+      // },
       {
         text: 'ماشین حساب',
         icon: 'person',

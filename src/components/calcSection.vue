@@ -17,7 +17,7 @@
                                                 <v-text-field v-if="field.type === 'text'" :key="`calc-field-${i}`"
                                                     outlined v-model="field.value" :label="field.label"
                                                     :hint="num2persian(field.value, true)" class="faNum mb-4"
-                                                    :name="field.name" required :rules="field.rules">
+                                                    :name="field.name" required :rules="field.rules" @click="select">
                                                     <template v-slot:append>
                                                         <svg style="width: 24px; height: 24px; fill: #424750;">
                                                             <use xlink:href="#toman"></use>
@@ -33,7 +33,52 @@
                                                 x-large block> <span class="font-weight-regular text-h6">محاسبه
                                                     اقساط</span> </v-btn>
                                         </v-col>
-                                        <v-col cols="12" sm="6"></v-col>
+                                        <v-divider vertical></v-divider>
+                                        <v-col cols="12" sm="6" v-if="'installments' in xaavData" ref="chequesTable">
+                                            <v-alert outlined color="info">
+                                                با توجه به شرایط دلخواه شما، تعداد <span class="faNum">{{
+                                                        xaavData.installments.length
+                                                }}</span> برگ چک اقساط و یک برگ چک
+                                                ضمانت طبق جدول زیر از شما دریافت خواهد شد.
+                                            </v-alert>
+                                            <v-alert outlined color="warning">
+                                                <span class="text-body-1 font-weight-bold">
+                                                    {{ formatNumber(phonerInterest / 10) }} تومان
+                                                </span>
+                                                کارمزد خرید اقساطی می‌باشد)
+                                            </v-alert>
+                                            <v-simple-table dense class="banded-table">
+                                                <template v-slot:default>
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-right">
+                                                                تاریخ
+                                                            </th>
+                                                            <th class="text-right">
+                                                                مبلغ
+                                                            </th>
+                                                            <th class="text-right">
+                                                                نوع چک
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="(item, i) in xaavData.installments"
+                                                            :key="`i8t-xaav-cheques-${i}`">
+                                                            <td class="faNum">{{ item.date }}</td>
+                                                            <td>{{ formatNumber(item.price) }} ریال</td>
+                                                            <td>اقساط</td>
+                                                        </tr>
+                                                        <tr style="background: rgb(90 181 94 / 15%);">
+                                                            <td class="faNum">{{ xaavData.checkWarrantyDate }}</td>
+                                                            <td>{{ formatNumber(xaavData.checkWarrantyPrice) }} ریال
+                                                            </td>
+                                                            <td>ضمانت</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </template>
+                                            </v-simple-table>
+                                        </v-col>
                                     </v-row>
                                 </v-container>
                             </v-card-text>
@@ -45,8 +90,9 @@
     </section>
 </template>
 <script>
+import axios from "axios";
 export default {
-    data() {
+    data () {
         const rules = {
             required: (v) => !!v || "این فیلد الزامی است",
         };
@@ -123,20 +169,22 @@ export default {
                     rules: [rules.required],
                 },
             ],
+            xaavData: {},
+            phonerInterest: 0,
             valid: false,
             loading: false,
         }
     },
     computed: {
-        orderSubtotal() {
+        orderSubtotal () {
             return this.fields[0].value;
         },
-        prePayment() {
+        prePayment () {
             return this.fields[1].value;
         },
     },
     watch: {
-        orderSubtotal(newValue) {
+        orderSubtotal (newValue) {
             if (newValue !== null && newValue !== undefined) {
                 const result = newValue
                     .toString()
@@ -148,7 +196,7 @@ export default {
                 });
             }
         },
-        prePayment(newValue) {
+        prePayment (newValue) {
             if (newValue !== null && newValue !== undefined) {
                 const result = newValue
                     .toString()
@@ -162,9 +210,56 @@ export default {
         },
     },
     methods: {
-        toEnDigit(s) { return s.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, function (a) { return a.charCodeAt(0) & 15 }) },
-        num2persian(num, currency = false) {
+        toEnDigit (s) { return s.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, function (a) { return a.charCodeAt(0) & 15 }) },
+        num2persian (num, currency = false) {
             return num.toString().replace(/,/g, "").num2persian() + (currency ? " تومان" : "");
+        },
+        select (event) {
+            event.target.setSelectionRange(0, -1)
+        },
+        formatNumber (number) {
+            return Intl.NumberFormat("fa-IR").format(number);
+        },
+        currencyHandler (value, toRial = false, sep = true) {
+            // eslint-disable-next-line no-useless-escape
+            let num = parseInt(value.replace(/\,/g, ""));
+            if (toRial) {
+                num = num * 10
+            }
+            if (sep) {
+                num = Intl.NumberFormat().format(num);
+            }
+            return num;
+        },
+        calculate () {
+            this.loading = true;
+            this.xaavData = {}
+            const data = {
+                action: 'i8t_ajax_handler',
+                func: 'publicCalculateInstalment',
+                _nonce: '04e2ac9a45',
+                orderSubtotal: this.currencyHandler(this.orderSubtotal, true),
+                prePayment: this.currencyHandler(this.prePayment, true),
+                paymentMethod: this.fields[2].value,
+                numberInstallment: this.fields[3].value,
+            };
+            const url = window.location.origin + '/i8t-api.php'
+            axios.post(url, data).then((response) => {
+                this.loading = false;
+                this.xaavData = response.data.data;
+                this.phonerInterest = response.data.phoner_interest;
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.$refs.chequesTable.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                        });
+                    }, 500);
+                });
+            }).catch((error) => {
+                this.loading = false;
+                alert(error.response.data.data.error)
+            });
         },
     }
 }
