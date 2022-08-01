@@ -12,7 +12,7 @@
                             <v-card-text>
                                 <v-container fluid>
                                     <v-row>
-                                        <v-col cols="12" sm="6">
+                                        <v-col cols="12" :sm="hasXaavData ? '6' : '12'">
                                             <template v-for="(field, i) in fields">
                                                 <v-text-field v-if="field.type === 'text'" :key="`calc-field-${i}`"
                                                     outlined v-model="field.value" :label="field.label"
@@ -33,19 +33,13 @@
                                                 x-large block> <span class="font-weight-regular text-h6">محاسبه
                                                     اقساط</span> </v-btn>
                                         </v-col>
-                                        <v-divider vertical></v-divider>
-                                        <v-col cols="12" sm="6" v-if="'installments' in xaavData" ref="chequesTable">
+                                        <v-divider v-if="hasXaavData" vertical></v-divider>
+                                        <v-col cols="12" sm="6" v-if="hasXaavData" ref="chequesTable">
                                             <v-alert outlined color="info">
                                                 با توجه به شرایط دلخواه شما، تعداد <span class="faNum">{{
                                                         xaavData.installments.length
                                                 }}</span> برگ چک اقساط و یک برگ چک
                                                 ضمانت طبق جدول زیر از شما دریافت خواهد شد.
-                                            </v-alert>
-                                            <v-alert outlined color="warning">
-                                                <span class="text-body-1 font-weight-bold">
-                                                    {{ formatNumber(phonerInterest / 10) }} تومان
-                                                </span>
-                                                کارمزد خرید اقساطی می‌باشد)
                                             </v-alert>
                                             <v-simple-table dense class="banded-table">
                                                 <template v-slot:default>
@@ -182,6 +176,9 @@ export default {
         prePayment () {
             return this.fields[1].value;
         },
+        hasXaavData(){
+            return 'installments' in this.xaavData;
+        }
     },
     watch: {
         orderSubtotal (newValue) {
@@ -244,10 +241,11 @@ export default {
                 numberInstallment: this.fields[3].value,
             };
             const url = window.location.origin + '/i8t-api.php'
+            // const url = 'https://test.phoner.ir/i8t-api.php'
             axios.post(url, data).then((response) => {
                 this.loading = false;
                 this.xaavData = response.data.data;
-                this.phonerInterest = response.data.phoner_interest;
+                // this.phonerInterest = response.data.phoner_interest;
                 this.$nextTick(() => {
                     setTimeout(() => {
                         this.$refs.chequesTable.scrollIntoView({
