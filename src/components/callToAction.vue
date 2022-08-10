@@ -6,7 +6,7 @@
           <div class="text-body1 text-lg-h6 font-weight-regular mb-8 mb-md-12">در صورت بروز سوال، همکاران ما برای پاسخگویی و راهنمایی شما گوش به زنگ هستند!</div>
           <div>
             <v-btn
-              href="https://test.phoner.ir/%d8%aa%d8%b3%d8%aa-%d8%a7%d9%82%d8%b3%d8%a7%d8%b7%db%8c/"
+              href="https://phoner.ir/installment-purchase-profile/"
               target="_blank"
               class="rounded-lg"
               color="primary darken-2"

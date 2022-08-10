@@ -11,12 +11,12 @@
           </div>
           <v-spacer></v-spacer>
           <v-app-bar-nav-icon class="d-block d-md-none" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-          <v-btn class="mx-2 d-none d-md-flex" :href="item.href" :target="item.newTab ? '_blank' : ''" text
+          <v-btn class="mx-2 d-none d-md-flex" @click="item.newTab ? '':$vuetify.goTo(item.href)" :href="item.href" :target="item.newTab ? '_blank' : ''" text
             v-for="(item, i) in menuItems" :key="`menu-items-${i}`">
             {{ item.text }}
           </v-btn>
           <v-divider vertical class="me-4"></v-divider>
-          <v-btn class="rounded-lg" color="primary darken-2" href="https://test.phoner.ir/%d8%aa%d8%b3%d8%aa-%d8%a7%d9%82%d8%b3%d8%a7%d8%b7%db%8c/" target="_blank">
+          <v-btn class="rounded-lg" color="primary darken-2" href="https://phoner.ir/installment-purchase-profile/" target="_blank">
             <span class="text-body-2 font-weight-bold">دریافت اعتبار</span>
           </v-btn>
         </v-row>
@@ -25,7 +25,7 @@
     <v-navigation-drawer v-model="drawer" fixed bottom right height="auto">
       <v-list nav class="text-center">
         <v-list-item-group>
-          <v-list-item :href="item.href" :target="item.newTab ? '_blank' : ''" v-for="(item, i) in menuItems"
+          <v-list-item :href="item.href" @click="item.newTab ? '':$vuetify.goTo(item.href)" :target="item.newTab ? '_blank' : ''" v-for="(item, i) in menuItems"
             :key="`side-menu-items-${i}`">
             <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item>
