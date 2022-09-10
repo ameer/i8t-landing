@@ -67,7 +67,26 @@ body {
   background-position: center;
   background-size: cover;
 }
-
+#request-product-section {
+  height: 400px;
+  background: linear-gradient(rgb(252 252 252 / 15%), rgb(255 255 255 / 50%)), url("/public/img/request-product.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.btn-bg {
+  background: #ea1f11;
+  padding: 6px;
+  border-radius: 48px;
+  box-shadow: inset 0px 4px 12px 0px rgb(0 0 0 / 50%);
+  transition: all 0.3s ease-in-out;
+}
+.btn-bg:hover {
+  box-shadow: none;
+}
+.btn-bg:hover .v-icon {
+  transform: translateX(-3px);
+}
 .squircle {
   min-height: 150px;
   background-repeat: no-repeat;
@@ -92,16 +111,16 @@ body {
   max-height: 9em;
   line-height: 2.3em;
   overflow: hidden;
-  -webkit-transition: all .4s ease;
-  -moz-transition: all .4s ease;
-  -ms-transition: all .4s ease;
-  -o-transition: all .4s ease;
-  transition: all .4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
   position: relative;
 }
 .expanded {
   max-height: 9999px;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
 }
 ul {
   list-style: none;
@@ -117,11 +136,11 @@ ul li a {
   color: #454545 !important;
   font-size: 11px;
   line-height: 25px;
-  -webkit-transition: all .2s ease 0s;
-  -moz-transition: all .2s ease 0s;
-  -ms-transition: all .2s ease 0s;
-  -o-transition: all .2s ease 0s;
-  transition: all .2s ease 0s;
+  -webkit-transition: all 0.2s ease 0s;
+  -moz-transition: all 0.2s ease 0s;
+  -ms-transition: all 0.2s ease 0s;
+  -o-transition: all 0.2s ease 0s;
+  transition: all 0.2s ease 0s;
 }
 .footer_list .title_list:before {
   width: 5px;
@@ -129,7 +148,7 @@ ul li a {
   display: inline-block;
   margin-left: 10px;
   vertical-align: middle;
-  content: '';
+  content: "";
   border-radius: 2px;
   background-color: rgb(1, 131, 255);
 }

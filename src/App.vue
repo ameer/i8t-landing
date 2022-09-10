@@ -34,6 +34,7 @@
     </v-navigation-drawer>
     <v-main>
       <HeroSection />
+      <RequestProduct />
       <FaqSection />
       <StepsSection />
       <call-to-action />
@@ -52,6 +53,7 @@ import StepsSection from "./components/stepsSection.vue";
 import PhonerDesc from "./components/phonerDesc.vue";
 import CallToAction from "./components/callToAction.vue";
 import SiteFooter from "./components/siteFooter.vue";
+import RequestProduct from "./components/requestProduct.vue";
 
 export default {
   name: "App",
@@ -65,7 +67,8 @@ export default {
     PhonerDesc,
     CallToAction,
     SiteFooter,
-  },
+    RequestProduct
+},
 
   data: () => ({
     drawer: false,
