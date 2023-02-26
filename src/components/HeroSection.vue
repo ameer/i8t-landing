@@ -2,11 +2,19 @@
     <section id="hero">
         <v-container class="py-16">
             <v-row justify="center">
+                <v-col cols="12" md="5" class="text-center">
+                    <v-alert color="warning darken-1" rounded="xl">
+                        <span class="white--text text-body-1 font-weight-bold">
+                            فقط تا ۲۰ اسفندماه ۱۴۰۱ زمان باقیست!
+                        </span>
+                    </v-alert>
+                </v-col>
                 <v-col cols="12" class="text-center">
                     <h1 class="text-h6 text-lg-h4 font-weight-bold">
                         گوشی موبایلت رو نقدی نخر! قسطیش کن!
                     </h1>
-                    <h3 class="text-body-1 text-lg-h5 mt-4 mt-lg-8">تا سقف ۳۰ میلیون تومن از فروشگاه اینترنتی فونر خرید
+                    
+                    <h3 class="text-body-1 text-lg-h5 mt-4 mt-lg-8">تا سقف ۲۰ میلیون تومن از فروشگاه اینترنتی فونر خرید
                         کن!</h3>
                     <v-container fluid class="mt-4 mt-lg-12">
                         <v-row align="center" :no-gutters="$vuetify.breakpoint.mdAndUp">
