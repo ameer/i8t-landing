@@ -33,12 +33,12 @@
       </v-list>
     </v-navigation-drawer>
     <v-main>
-      <HeroSection />
+      <HeroSection :credit-threshold="config.creditThreshold" />
       <RequestProduct />
       <FaqSection />
       <StepsSection />
       <call-to-action />
-      <CalcSection />
+      <CalcSection :number-of-installment="config.numberOfInstallment" :payment-method="config.paymentMethod" />
       <phoner-desc />
       <site-footer />
     </v-main>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import HeroSection from "./components/HeroSection.vue";
 import FaqSection from "./components/faqSection.vue";
 import CalcSection from "./components/calcSection.vue";
@@ -72,6 +73,24 @@ export default {
 
   data: () => ({
     drawer: false,
+    config: {
+      creditThreshold: '20',
+      paymentMethod: [
+            {
+              text: "هر ماه یک چک",
+              value: "1",
+            },
+            {
+              text: "هر دو ماه یک چک",
+              value: "2",
+            },
+            {
+              text: "هر سه ماه یک چک",
+              value: "3",
+            }
+          ],
+      numberOfInstallment: '6'   
+    },
     menuItems: [
       {
         text: "محصولات",
@@ -91,6 +110,22 @@ export default {
       },
     ],
   }),
-  mounted () { },
+  mounted () {
+    this.getConfigFromSite()
+  },
+  methods: {
+    getConfigFromSite(){
+      const url = window.location.origin + "/i8t-api.php";
+      // const url = 'http://localhost/i8t-api.php'
+      axios
+        .get(url)
+        .then((response) => {
+          this.config = response.data.data;
+        })
+        .catch((error) => {
+          alert(error.response.data.data.error);
+        });
+    }
+  },
 };
 </script>

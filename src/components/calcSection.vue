@@ -124,6 +124,16 @@
 <script>
 import axios from "axios";
 export default {
+  props: {
+    paymentMethod: {
+      type: Array,
+      default: () => []
+    },
+    numberOfInstallment: {
+      type: String,
+      default: '6'
+    }
+  },
   data() {
     const rules = {
       required: (v) => !!v || "این فیلد الزامی است",
@@ -155,18 +165,6 @@ export default {
           type: "select",
           required: true,
           items: [
-            {
-              text: "هر ماه یک چک",
-              value: "1",
-            },
-            {
-              text: "هر دو ماه یک چک",
-              value: "2",
-            },
-            {
-              text: "هر سه ماه یک چک",
-              value: "3",
-            }
           ],
           value: "1",
           num2Persian: true,
@@ -213,6 +211,32 @@ export default {
     paymentMethodField() {
       return this.fields[2].value;
     },
+    defaultPaymentMethodsItems() {
+      return [
+            {
+              text: "هر ماه یک چک",
+              value: "1",
+            },
+            {
+              text: "هر دو ماه یک چک",
+              value: "2",
+            },
+            {
+              text: "هر سه ماه یک چک",
+              value: "3",
+            },
+            {
+              text: "هر چهار ماه یک چک",
+              value: "4",
+            }
+          ]
+    },
+    // paymentMethodsItems(){
+    //   const arrayCache = this.paymentMethod.join('')
+    //   return this.defaultPaymentMethodsItems.filter(pm => { 
+    //     if(arrayCache.includes(pm.value)){ return pm }
+    //   })
+    // },
     hasXaavData() {
       return "installments" in this.xaavData;
     },
@@ -248,12 +272,19 @@ export default {
     },
     paymentMethodField(newValue) {
       if (newValue !== null && newValue !== undefined) {
-        const selectedPaymentMethod = 12 / parseInt(newValue)
+        const selectedPaymentMethod = parseInt(this.numberOfInstallment) / parseInt(newValue)
         this.$nextTick(() => {
           this.fields[3].items = [...''.padEnd(selectedPaymentMethod)].map((_,i)=>''+(i+1))
         });
       }
     }
+  },
+  mounted() {
+    setTimeout(() => {
+        this.fields[2].items = this.paymentMethod
+        this.fields[3].items = [...''.padEnd(parseInt(this.numberOfInstallment))].map((_,i)=>''+(i+1))
+      }, 500)
+    
   },
   methods: {
     toEnDigit(s) {

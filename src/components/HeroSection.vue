@@ -14,7 +14,7 @@
                         گوشی موبایلت رو نقدی نخر! قسطیش کن!
                     </h1>
                     
-                    <h3 class="text-body-1 text-lg-h5 mt-4 mt-lg-8">تا سقف ۲۰ میلیون تومن از فروشگاه اینترنتی فونر خرید
+                    <h3 class="text-body-1 text-lg-h5 mt-4 mt-lg-8">تا سقف {{ Intl.NumberFormat('fa-IR').format(creditThreshold) }} میلیون تومن از فروشگاه اینترنتی فونر خرید
                         کن!</h3>
                     <v-container fluid class="mt-4 mt-lg-12">
                         <v-row align="center" :no-gutters="$vuetify.breakpoint.mdAndUp">
@@ -42,6 +42,12 @@
 </template>
 <script>
 export default {
+    props: {
+      creditThreshold: {
+        type: String,
+        default: "20"
+      }  
+    },
     data() {
         return {
             features: [
