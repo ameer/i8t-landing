@@ -2,13 +2,13 @@
     <section id="hero">
         <v-container class="py-16">
             <v-row justify="center">
-                <v-col cols="12" md="5" class="text-center">
+                <!-- <v-col cols="12" md="5" class="text-center">
                     <v-alert color="warning darken-1" rounded="xl">
                         <span class="white--text text-body-1 font-weight-bold">
                             فقط تا ۲۰ اسفندماه ۱۴۰۱ زمان باقیست!
                         </span>
                     </v-alert>
-                </v-col>
+                </v-col> -->
                 <v-col cols="12" class="text-center">
                     <h1 class="text-h6 text-lg-h4 font-weight-bold">
                         گوشی موبایلت رو نقدی نخر! قسطیش کن!
