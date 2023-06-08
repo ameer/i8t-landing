@@ -272,19 +272,30 @@ export default {
     },
     paymentMethodField(newValue) {
       if (newValue !== null && newValue !== undefined) {
+        // eslint-disable-next-line no-unused-vars
         const selectedPaymentMethod = parseInt(this.numberOfInstallment) / parseInt(newValue)
         this.$nextTick(() => {
-          this.fields[3].items = [...''.padEnd(selectedPaymentMethod)].map((_,i)=>''+(i+1))
+         // Hard Coded temporarily
+         if (parseInt(newValue) === 1) {
+            this.fields[3].items = [...''.padEnd(parseInt(4))].map((_, i) => '' + (i + 3))
+          } else if (parseInt(newValue) === 2) {
+            this.fields[3].items = ['3']
+          }
+          // this.fields[3].items = [...''.padEnd(selectedPaymentMethod)].map((_, i) => '' + (i + 1))
         });
       }
     }
   },
   mounted() {
     setTimeout(() => {
-        this.fields[2].items = this.paymentMethod
-        this.fields[3].items = [...''.padEnd(parseInt(this.numberOfInstallment))].map((_,i)=>''+(i+1))
-      }, 500)
-    
+      this.fields[2].items = this.paymentMethod
+      if (parseInt(this.paymentMethodField) === 1) {
+        this.fields[3].items = [...''.padEnd(parseInt(4))].map((_, i) => '' + (i + 3))
+      } else if (parseInt(this.paymentMethodField) === 2) {
+        this.fields[3].items = ['3']
+      }
+      // this.fields[3].items = [...''.padEnd(parseInt(this.numberOfInstallment))].map((_, i) => '' + (i + 3))
+    }, 500)
   },
   methods: {
     toEnDigit(s) {
