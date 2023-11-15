@@ -35,10 +35,10 @@
     <v-main>
       <HeroSection :credit-threshold="config.creditThreshold" />
       <RequestProduct />
-      <FaqSection />
-      <StepsSection />
-      <call-to-action />
+      <StepsSection :credit-threshold="Intl.NumberFormat('fa-IR').format(config.creditThreshold)"/>
       <CalcSection :number-of-installment="config.numberOfInstallment" :payment-method="config.paymentMethod" />
+      <call-to-action />
+      <FaqSection :credit-threshold="Intl.NumberFormat('fa-IR').format(config.creditThreshold)" />
       <phoner-desc />
       <site-footer />
     </v-main>
@@ -116,7 +116,7 @@ export default {
   methods: {
     getConfigFromSite(){
       const url = window.location.origin + "/i8t-api.php";
-      // const url = 'http://localhost/i8t-api.php'
+      // const url = 'https://phoner.test/i8t-api.php'
       axios
         .get(url)
         .then((response) => {

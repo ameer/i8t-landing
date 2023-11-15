@@ -25,9 +25,15 @@
 </template>
 <script>
 export default {
-    data () {
-        return {
-            stepsList: [
+    props: {
+      creditThreshold: {
+        type: String,
+        default: "20"
+      }  
+    },
+    computed: {
+        stepsList(){ 
+            return [
                 {
                     title: 'اعتبارسنجی',
                     subtitle: 'شما عکس کارت ملی و یک برگ چک صیادی را برای ما بارگذاری می‌کنید.'
@@ -38,7 +44,7 @@ export default {
                 // },
                 {
                     title: 'دریافت اعتبار',
-                    subtitle: 'مبلغ ۳۰ میلیون تومان در حساب کاربری شما ثبت می‌شود.'
+                    subtitle: `مبلغ ${this.creditThreshold} میلیون تومان در حساب کاربری شما ثبت می‌شود.`
                 },
                 {
                     title: 'خرید محصول',
@@ -54,9 +60,6 @@ export default {
                 }
             ]
         }
-    },
-    mounted () {
-
     },
 }
 </script>

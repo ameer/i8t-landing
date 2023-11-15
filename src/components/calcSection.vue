@@ -275,13 +275,17 @@ export default {
         // eslint-disable-next-line no-unused-vars
         const selectedPaymentMethod = parseInt(this.numberOfInstallment) / parseInt(newValue)
         this.$nextTick(() => {
-         // Hard Coded temporarily
-         if (parseInt(newValue) === 1) {
-            this.fields[3].items = [...''.padEnd(parseInt(4))].map((_, i) => '' + (i + 3))
-          } else if (parseInt(newValue) === 2) {
-            this.fields[3].items = ['3']
-          }
-          // this.fields[3].items = [...''.padEnd(selectedPaymentMethod)].map((_, i) => '' + (i + 1))
+           this.fields[3].items = this.generateNumberOfInstallments(
+            parseInt(this.numberOfInstallment),
+            parseInt(newValue)
+          );
+        //  // Hard Coded temporarily
+        //  if (parseInt(newValue) === 1) {
+        //     this.fields[3].items = [...''.padEnd(parseInt(4))].map((_, i) => '' + (i + 3))
+        //   } else if (parseInt(newValue) === 2) {
+        //     this.fields[3].items = ['3']
+        //   }
+        //   // this.fields[3].items = [...''.padEnd(selectedPaymentMethod)].map((_, i) => '' + (i + 1))
         });
       }
     }
@@ -289,15 +293,33 @@ export default {
   mounted() {
     setTimeout(() => {
       this.fields[2].items = this.paymentMethod
-      if (parseInt(this.paymentMethodField) === 1) {
-        this.fields[3].items = [...''.padEnd(parseInt(4))].map((_, i) => '' + (i + 3))
-      } else if (parseInt(this.paymentMethodField) === 2) {
-        this.fields[3].items = ['3']
-      }
+      this.fields[3].items = this.generateNumberOfInstallments(
+            parseInt(this.numberOfInstallment),
+            parseInt(this.paymentMethodField))
+      // if (parseInt(this.paymentMethodField) === 1) {
+      //   this.fields[3].items = [...''.padEnd(parseInt(4))].map((_, i) => '' + (i + 3))
+      // } else if (parseInt(this.paymentMethodField) === 2) {
+      //   this.fields[3].items = ['3']
+      // }
       // this.fields[3].items = [...''.padEnd(parseInt(this.numberOfInstallment))].map((_, i) => '' + (i + 3))
     }, 500)
   },
   methods: {
+    // console.log(generateNumberOfInstallments(6, 1, 3)); Outputs: [3, 4, 5, 6]
+    generateNumberOfInstallments(
+      max_number_of_months,
+      paymentMethod,
+      min_number_of_installment = 3
+    ) {
+      let result = [];
+      if (paymentMethod > 0) {
+        const desiredLength = max_number_of_months / paymentMethod;
+        for (let i = min_number_of_installment; i <= desiredLength; i++) {
+          result.push(i);
+        }
+      }
+      return result;
+    },
     toEnDigit(s) {
       return s.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, function (a) {
         return a.charCodeAt(0) & 15;
